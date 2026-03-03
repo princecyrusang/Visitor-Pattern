@@ -1,6 +1,64 @@
 # Visitor-Pattern
 
-![Visitor Pattern UML](VisitorPattern_UML.png)
+## Visitor Pattern UML Diagram
+
+```mermaid
+classDiagram
+    class TelcoSubscription {
+        <<interface>>
+        +accept(UsagePromo, double) String
+        +accept(UnliCallsTextOffer, boolean) String
+        +getTelcoName() String
+        +getPromoPrice() double
+        +getUnliCallText() boolean
+    }
+
+    class Telco {
+        -telcoName: String
+        -promoPrice: double
+        -dataAllowance: int
+        -unliCallText: boolean
+        +Telco(int, double, String, boolean)
+        +accept(UsagePromo, double) String
+        +accept(UnliCallsTextOffer, boolean) String
+        +getTelcoName() String
+        +getPromoPrice() double
+        +getUnliCallText() boolean
+    }
+
+    class UsagePromo {
+        <<interface>>
+        +showAllowance(String, double) String
+    }
+
+    class UnliCallsTextOffer {
+        <<interface>>
+        +showUnliCallsTextOffer(String, boolean) String
+    }
+
+    class TelcoAllowance {
+        -allowanceMap: Map
+        +showAllowance(String, double) String
+    }
+
+    class UnliCallTextPackage {
+        -unliMap: Map
+        +showUnliCallsTextOffer(String, boolean) String
+    }
+
+    class TelcoPromo {
+        +main(String[]) void
+    }
+
+    TelcoSubscription <|.. Telco
+    UsagePromo <|.. TelcoAllowance
+    UnliCallsTextOffer <|.. UnliCallTextPackage
+    TelcoPromo --> TelcoSubscription
+    TelcoPromo --> UsagePromo
+    TelcoPromo --> UnliCallsTextOffer
+```
+
+## Problem Scenario
 
 Visitor Design Pattern – Telco Promo System
 Problem Scenario
