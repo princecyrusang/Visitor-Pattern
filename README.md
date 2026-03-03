@@ -6,11 +6,8 @@
 classDiagram
     class TelcoSubscription {
         <<interface>>
-        +accept(UsagePromo, double) String
-        +accept(UnliCallsTextOffer, boolean) String
-        +getTelcoName() String
-        +getPromoPrice() double
-        +getUnliCallText() boolean
+        +accept(UsagePromo promo, double price) String
+        +accept(UnliCallsTextOffer unliPackage, boolean unliCallText) String
     }
 
     class Telco {
@@ -18,9 +15,9 @@ classDiagram
         -promoPrice: double
         -dataAllowance: int
         -unliCallText: boolean
-        +Telco(int, double, String, boolean)
-        +accept(UsagePromo, double) String
-        +accept(UnliCallsTextOffer, boolean) String
+        +Telco(int dataAllowance, double promoPrice, String telcoName, boolean unliCallText)
+        +accept(UsagePromo promo, double price) String
+        +accept(UnliCallsTextOffer unliPackage, boolean unliCallText) String
         +getTelcoName() String
         +getPromoPrice() double
         +getUnliCallText() boolean
@@ -28,22 +25,22 @@ classDiagram
 
     class UsagePromo {
         <<interface>>
-        +showAllowance(String, double) String
+        +showAllowance(String telcoName, double money) String
     }
 
     class UnliCallsTextOffer {
         <<interface>>
-        +showUnliCallsTextOffer(String, boolean) String
+        +showUnliCallsTextOffer(String telcoName, boolean unliCallText) String
     }
 
     class TelcoAllowance {
-        -allowanceMap: Map
-        +showAllowance(String, double) String
+        -allowanceMap: Map~String, String~
+        +showAllowance(String telcoName, double money) String
     }
 
     class UnliCallTextPackage {
-        -unliMap: Map
-        +showUnliCallsTextOffer(String, boolean) String
+        -unliMap: Map~String, String~
+        +showUnliCallsTextOffer(String telcoName, boolean unliCallText) String
     }
 
     class TelcoPromo {
@@ -53,9 +50,9 @@ classDiagram
     TelcoSubscription <|.. Telco
     UsagePromo <|.. TelcoAllowance
     UnliCallsTextOffer <|.. UnliCallTextPackage
-    TelcoPromo --> TelcoSubscription
-    TelcoPromo --> UsagePromo
-    TelcoPromo --> UnliCallsTextOffer
+    TelcoPromo ..> TelcoSubscription
+    Telco ..> UsagePromo
+    Telco ..> UnliCallsTextOffer
 ```
 
 ## Problem Scenario
